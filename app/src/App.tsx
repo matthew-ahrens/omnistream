@@ -33,7 +33,7 @@ export default function App() {
             default:
                 return (
                     <div className="home-view">
-                        <h1>Home</h1>
+                        <h1>Your did it!</h1>
                         <p className="home-subtitle">
                             This will become your main dashboard with cards, watchable badges, and quick access to your shows.
                         </p>
