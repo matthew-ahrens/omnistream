@@ -32,6 +32,7 @@ function createWindow() {
         webPreferences: {
             preload: path.join(__dirname, 'preload.mjs'),
             webviewTag: true,
+            partition: 'persist:omnistream',
         },
     })
 
