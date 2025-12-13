@@ -19,6 +19,14 @@ function createWindow() {
       partition: "persist:omnistream"
     }
   });
+  win.webContents.on("did-attach-webview", (_event, wc) => {
+    wc.setWindowOpenHandler(({ url }) => {
+      if (url.startsWith("http://") || url.startsWith("https://")) {
+        wc.loadURL(url);
+      }
+      return { action: "deny" };
+    });
+  });
   win.webContents.on("did-finish-load", () => {
     win == null ? void 0 : win.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
   });
@@ -39,6 +47,7 @@ app.on("activate", () => {
     createWindow();
   }
 });
+app.disableHardwareAcceleration();
 app.whenReady().then(createWindow);
 export {
   MAIN_DIST,

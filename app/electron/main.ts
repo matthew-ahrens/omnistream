@@ -36,6 +36,16 @@ function createWindow() {
         },
     })
 
+    // Keep target=_blank / window.open links inside the same webview
+    win.webContents.on('did-attach-webview', (_event, wc) => {
+        wc.setWindowOpenHandler(({ url }) => {
+            if (url.startsWith('http://') || url.startsWith('https://')) {
+                wc.loadURL(url)
+            }
+            return { action: 'deny' }
+        })
+    })
+
     // Test active push message to Renderer-process.
     win.webContents.on('did-finish-load', () => {
         win?.webContents.send('main-process-message', new Date().toLocaleString())
@@ -48,6 +58,7 @@ function createWindow() {
         win.loadFile(path.join(RENDERER_DIST, 'index.html'))
     }
 }
+
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -66,5 +77,7 @@ app.on('activate', () => {
         createWindow()
     }
 })
+
+app.disableHardwareAcceleration();
 
 app.whenReady().then(createWindow)
