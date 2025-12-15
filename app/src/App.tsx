@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
+import BrowserPanel from './BrowserPanel';
 
-type ViewName = 'home' | 'services' | 'lists' | 'settings';
+type ViewName = 'home' | 'services' | 'lists' | 'browser' | 'settings';
 
 export default function App() {
     const [currentView, setCurrentView] = useState<ViewName>('home');
@@ -22,6 +23,8 @@ export default function App() {
                         <p>Here you&apos;ll manage Bingeing, Throwbacks, Work Shows, Background Shows, and other custom lists.</p>
                     </div>
                 );
+            case 'browser':
+                return <BrowserPanel />;
             case 'settings':
                 return (
                     <div className="placeholder-view">
@@ -33,7 +36,7 @@ export default function App() {
             default:
                 return (
                     <div className="home-view">
-                        <h1>Your did it!</h1>
+                        <h1>OmniStream</h1>
                         <p className="home-subtitle">
                             This will become your main dashboard with cards, watchable badges, and quick access to your shows.
                         </p>
@@ -118,6 +121,12 @@ export default function App() {
                             onClick={() => handleNavClick('lists')}
                         >
                             Lists
+                        </li>
+                        <li
+                            className={isActive('browser')}
+                            onClick={() => handleNavClick('browser')}
+                        >
+                            Browser
                         </li>
                         <li
                             className={isActive('settings')}
